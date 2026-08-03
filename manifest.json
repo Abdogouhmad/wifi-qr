@@ -1,0 +1,16 @@
+{
+  "id": "wifi-qr",
+  "name": "Wi-Fi QR",
+  "version": "1.2.1",
+  "minNoctaliaVersion": "3.7.1",
+  "author": "MorphoRust",
+  "license": "MIT",
+  "repository": "local",
+  "description": "Show a QR code to join the current Wi-Fi network",
+  "entryPoints": {
+    "barWidget": "BarWidget.qml",
+    "panel": "Panel.qml"
+  },
+  "dependencies": { "plugins": [] },
+  "metadata": { "defaultSettings": {} }
+}
