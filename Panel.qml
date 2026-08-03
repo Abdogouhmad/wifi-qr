@@ -5,7 +5,6 @@ import Quickshell.Io
 import qs.Commons
 import qs.Widgets
 
-
 Item {
     id: root
 
@@ -44,7 +43,7 @@ Item {
 
                 const matrix = lines.slice(matrixStart)
                 if (matrix.length === 0) {
-                    root.errorText = "No Wi-Fi connection detected"
+                    root.errorText = pluginApi?.tr("panel.error_no_connection") || "No Wi-Fi connection detected"
                     root.qrRows = []
                     root.qrSize = 0
                 } else {
@@ -78,6 +77,12 @@ Item {
 
     Component.onCompleted: refresh()
 
+    onPluginApiChanged: {
+        if (pluginApi) {
+            refresh()
+        }
+    }
+
     Rectangle {
         id: panelContainer
         anchors.fill: parent
@@ -93,7 +98,7 @@ Item {
                 spacing: Style.marginM
 
                 NText {
-                    text: "Wi-Fi QR"
+                    text: pluginApi?.tr("panel.title") || "Wi-Fi QR"
                     pointSize: Style.fontSizeL
                     font.weight: Font.Bold
                     color: Color.mOnSurface
@@ -117,7 +122,7 @@ Item {
                 }
             }
 
-            // Error banner — fixed colors
+            // Error banner
             Rectangle {
                 visible: root.errorText !== "" && !root.loading
                 Layout.fillWidth: true
@@ -144,7 +149,7 @@ Item {
 
                 NText {
                     anchors.centerIn: parent
-                    text: "No QR data available"
+                    text: pluginApi?.tr("panel.empty_state") || "No QR data available"
                     color: Color.mOnSurfaceVariant
                     pointSize: Style.fontSizeM
                 }
@@ -210,15 +215,16 @@ Item {
             // Network name
             NText {
                 visible: root.ssid !== "" && !root.loading
-                text: "Connected: " + root.ssid
+                text: (pluginApi?.tr("panel.connected") || "Connected: ") + root.ssid
                 color: Color.mOnSurfaceVariant
                 pointSize: Style.fontSizeS
                 Layout.alignment: Qt.AlignHCenter
             }
+
             // Caption
             NText {
                 visible: root.qrSize > 0 && !root.loading
-                text: "Scan to connect"
+                text: pluginApi?.tr("panel.scan_to_connect") || "Scan to connect"
                 color: Color.mOnSurfaceVariant
                 pointSize: Style.fontSizeS
                 Layout.alignment: Qt.AlignHCenter
@@ -227,7 +233,7 @@ Item {
             Item { Layout.fillHeight: true }
 
             NButton {
-                text: "Refresh"
+                text: pluginApi?.tr("panel.refresh") || "Refresh"
                 Layout.alignment: Qt.AlignHCenter
                 Layout.bottomMargin: Style.marginS
                 onClicked: root.refresh()
